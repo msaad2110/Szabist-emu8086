@@ -40,9 +40,9 @@ input2 db 10,13,"Enter 2nd Digit : $"
 res db 10,13,"Answer : $"
 operand db 10,13,"Select operation ( + - * / ) : $"
 invalidmsg db 10,13,"Invalid Operator.. try again! $"   
-selectionmsg1 db 10,13,"Press Y to Continue OR Press any button to exit $"
+selectionmsg1 db 10,13,"Press y/Y to Continue OR Press ESC button to exit $"
 selectionmsg2 db 10,13,"Select your choice: $"   
-endmsg db 10,13,"Thank You $"
+endmsg db 10,13,09,09,09,"Thank You $"
 
 .code
 main proc 
@@ -175,6 +175,8 @@ RESULT:
       
       
 EXIT:
+    newline
+    newline
     print endmsg
        
    
