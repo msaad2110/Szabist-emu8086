@@ -18,29 +18,46 @@ seprate macro
     add cl,48
 endm
 
+newline macro
+    mov dl,10
+    mov ah,2
+    int 21h
+    mov dl,13
+    mov ah,2
+    int 21h
+endm
+
 
 
 .model small
 .stack 100h
 .data
 
-digit1 db 10,13,"Enter 1st Digit : $"
-digit2 db 10,13,"Enter 2nd Digit : $"
+
+heading1 db 09,09,"COAL LAB Project - Simple Calculator ( 2 Digit Input ) $"
+input1 db 10,13,"Enter 1st Digit : $"
+input2 db 10,13,"Enter 2nd Digit : $"
 res db 10,13,"Answer : $"
 operand db 10,13,"Select operation ( + - * / ) : $"
-invalid db 10,13,"Invalid Operator.. try again! $"   
-msg1 db "Press Y to Continue OR Press any button to exit $"
-msg2 db 10,13,"Select your choice: $"   
-msg3 db 10,13,"Thank You $"
+invalidmsg db 10,13,"Invalid Operator.. try again! $"   
+selectionmsg1 db 10,13,"Press Y to Continue OR Press any button to exit $"
+selectionmsg2 db 10,13,"Select your choice: $"   
+endmsg db 10,13,"Thank You $"
 
 .code
 main proc 
     
     mov ax,@data
-    mov ds,ax
-CHOOSE:     
-    print digit1
+    mov ds,ax 
     
+    newline
+    print heading1
+    newline
+    newline
+    
+RESTART:
+    
+    print input1
    
     ; For first number input (storing this in bl)
     mov ah,1
@@ -56,7 +73,7 @@ CHOOSE:
     ; END here
     
     
-    print digit2
+    print input2
     
     
     
@@ -74,7 +91,7 @@ CHOOSE:
     ; END here
     
     
-   
+CHOOSE:   
     print operand
     mov ah,1
     int 21h 
@@ -91,7 +108,7 @@ CHOOSE:
     cmp al,47
     je DIVISION
     
-    print invalid
+    print invalidmsg
     jmp CHOOSE
     
     
@@ -100,7 +117,6 @@ ADDITION:
         add bl,cl
         mov al,bl
         jmp RESULT 
-        jmp while
     ; End Here
     
     
@@ -135,35 +151,31 @@ RESULT:
     char cl 
     
     
-     while: 
-      mov dl,10
-      int 21h
-      mov dl,13
-      int 21h
-                
-      print msg1         
-      
-      print msg2
-      
-      mov ah,1
-      int 21h
-      
-      cmp al,089
-      je CHOOSE
-      
-      
-
-      cmp al,121
-      je CHOOSE
-     
-      
-      
-      cmp al,27
-      je exit_prog 
+    ;;End or restart program 
+    newline
+    newline
+    newline   
+    print selectionmsg1         
+    print selectionmsg2
+    
+    mov ah,1
+    int 21h
+    
+    cmp al,089
+    je RESTART
+    
+    
+    
+    cmp al,121
+    je RESTART
+    
+    
+    cmp al,27
+    je EXIT 
       
       
-      exit_prog:
-     print msg3
+EXIT:
+    print endmsg
        
    
     
