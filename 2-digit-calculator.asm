@@ -24,17 +24,21 @@ endm
 .stack 100h
 .data
 
-digit1 db "Enter 1st Digit : $"
+digit1 db 10,13,"Enter 1st Digit : $"
 digit2 db 10,13,"Enter 2nd Digit : $"
 res db 10,13,"Answer : $"
 operand db 10,13,"Select operation ( + - * / ) : $"
-invalid db 10,13,"Invalid Operator.. try again! $"
+invalid db 10,13,"Invalid Operator.. try again! $"   
+msg1 db "Press Y to Continue OR Press any button to exit $"
+msg2 db 10,13,"Select your choice: $"   
+msg3 db 10,13,"Thank You $"
+
 .code
 main proc 
     
     mov ax,@data
     mov ds,ax
-    
+CHOOSE:     
     print digit1
     
    
@@ -70,7 +74,7 @@ main proc
     ; END here
     
     
-CHOOSE:    
+   
     print operand
     mov ah,1
     int 21h 
@@ -95,7 +99,8 @@ CHOOSE:
 ADDITION:
         add bl,cl
         mov al,bl
-        jmp RESULT
+        jmp RESULT 
+        jmp while
     ; End Here
     
     
@@ -127,7 +132,38 @@ RESULT:
     seprate 
     print res 
     char bl
-    char cl
+    char cl 
+    
+    
+     while: 
+      mov dl,10
+      int 21h
+      mov dl,13
+      int 21h
+                
+      print msg1         
+      
+      print msg2
+      
+      mov ah,1
+      int 21h
+      
+      cmp al,089
+      je CHOOSE
+      
+      
+
+      cmp al,121
+      je CHOOSE
+     
+      
+      
+      cmp al,27
+      je exit_prog 
+      
+      
+      exit_prog:
+     print msg3
        
    
     
