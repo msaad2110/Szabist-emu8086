@@ -5,10 +5,8 @@
 
 main proc 
               
-mov ah, 7
+mov ah,1
 int 21h
-
-sub al, 48
 
 mov ah, 2
 int 21h
